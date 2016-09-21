@@ -1,7 +1,10 @@
 # Demo
 Socket &amp; Thread
 # Usage
-```demo [-t tcp interface] [-u udp interface] [-c number of packets to capture]```
+```
+gcc -o demo demo.c
+./demo [-t tcp interface] [-u udp interface] [-c number of packets to capture]
+```
 ## example
-```demo -t eth0 -u eth1 -c 1000```
+```./demo -t eth0 -u eth1 -c 1000```
 
