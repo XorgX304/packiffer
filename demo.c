@@ -20,9 +20,8 @@ void *functiontcp(void *argtcp){
 	int tcpsocket = socket(AF_INET, SOCK_STREAM, 0); // tcp socket
 	// number of packets to capture
 	for(int i = 0;i < panu->arg;i++){ // run until the number of received packets
-
+		
 	}
-
 }
 
 // function for udp thread
@@ -47,7 +46,7 @@ void displayhelp(){
 int main(int argc, char* argv[]){
 
 	struct packet_number panu; // alias
-	panu.arg = argv[6];
+	panu.arg = argv[6]; // put number of packets in arg variable of packet_number structure
 	// if taken arguments from command line is less than 6 then print "displayhelp" function
 	if(argc < 6){
 		displayhelp(); // show help and exit program
