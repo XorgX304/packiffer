@@ -6,7 +6,6 @@
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
 #include <netinet/udp.h>
-#include <pcap.h>
 
 // structure for numbers of packets
 struct packet_number {
