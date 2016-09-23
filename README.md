@@ -9,7 +9,8 @@ with this below command you can list all of your interfaces.
 
 ```ifconfig -a```
 if you don't have pcap library get it with this command.
-```sudo apt-get install libpcap-dev```
+
+```sudo apt-get install libpcap-dev``` [ubuntu]
 ## example
 ```./demo -t eth0 -u eth1 -c 1000```
 ### enviroment and compiler
