@@ -2,7 +2,7 @@
 Socket &amp; Thread
 # Usage
 ```
-gcc -o demo demo.c
+gcc -pthread -o demo demo.c
 ./demo [-t tcp interface] [-u udp interface] [-c number of packets to capture]
 ```
 ## example
