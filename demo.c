@@ -7,9 +7,11 @@
 #include <netinet/tcp.h>
 #include <netinet/udp.h>
 
-// structure for numbers of packets
+// structure for packets and interfaces
 struct packet_number {
 	int arg; // number of packets that taken form command line
+	char **tcp_interface; // interface for tcp packets
+	char **udp_interface; // interface for udp packets 
 };
 
 // function for tcp thread
@@ -46,6 +48,8 @@ int main(int argc, char* argv[]){
 
 	struct packet_number panu; // alias
 	panu.arg = argv[6]; // put number of packets in arg variable of packet_number structure
+	panu.tcp_interface = argv[2]; // put given interface to tcp interface in structure
+	panu.udp_interface = argv[4]; // put given interface to udp interface in structure
 	// if taken arguments from command line is less than 6 then print "displayhelp" function
 	if(argc < 6){
 		displayhelp(); // show help and exit program
