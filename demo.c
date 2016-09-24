@@ -60,8 +60,8 @@ int main(int argc, char* argv[]){
 	}
 	pthread_t pthtcp; // tcp thread def
 	pthread_t pthudp; // udp thread def
-	pthread_create(&pthtcp, NULL, functiontcp, "tcp processing..."); // tcp thread create
-	pthread_create(&pthudp, NULL, functionudp, "udp processing..."); // udp thread create
+	pthread_create(&pthtcp, NULL, functiontcp, "tcp processing..."); // tcp thread creation
+	pthread_create(&pthudp, NULL, functionudp, "udp processing..."); // udp thread creation
 	pthread_join(pthtcp, NULL); // wait for tcp thread to completes
 	pthread_join(pthudp, NULL); // wait for udp thread to completes
 	return 0;
