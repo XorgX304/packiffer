@@ -46,7 +46,7 @@ void displayhelp(){
 
 void main(int argc, char* argv[]){
 
-	struct packet_interface pacint; // alias
+	struct packet_interface pacint; // declare pacint of type packet_interface structure
 	pacint.arg = argv[6]; // put number of packets in arg variable of packet_number structure
 	pacint.tcp_interface = argv[2]; // put given interface to tcp interface in structure
 	pacint.udp_interface = argv[4]; // put given interface to udp interface in structure
