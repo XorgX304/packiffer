@@ -8,7 +8,7 @@
 #include <netinet/udp.h>
 
 // structure for packets and interfaces
-struct packet_number {
+struct packet_interface {
 	int arg; // number of packets that taken form command line
 	char **tcp_interface; // interface for tcp packets
 	char **udp_interface; // interface for udp packets 
@@ -17,10 +17,10 @@ struct packet_number {
 // function for tcp thread
 void *functiontcp(void *argtcp){
 	
-	struct packet_number *panu = argtcp; // args
+	struct packet_interface *pacint = argtcp; // args
 	int tcpsocket = socket(AF_INET, SOCK_STREAM, 0); // tcp socket
 	// number of packets to capture
-	for(int i = 0;i < panu->arg;i++){ // run until the number of received packets
+	for(int i = 0;i < pacint->arg;i++){ // run until the number of received packets
 		
 	}
 }
@@ -28,10 +28,10 @@ void *functiontcp(void *argtcp){
 // function for udp thread
 void *functionudp(void *argudp){
 
-	struct packet_number *panu = argudp; // args
+	struct packet_interface *pacint = argudp; // args
 	int udpsocket = socket(AF_INET, SOCK_DGRAM, 0); // udp socket
 	// number of packets to capture
-	for(int i = 0;i < panu->arg;i++){ // run until the number of received packets
+	for(int i = 0;i < pacint->arg;i++){ // run until the number of received packets
 
 	}
 }
@@ -46,10 +46,10 @@ void displayhelp(){
 
 int main(int argc, char* argv[]){
 
-	struct packet_number panu; // alias
-	panu.arg = argv[6]; // put number of packets in arg variable of packet_number structure
-	panu.tcp_interface = argv[2]; // put given interface to tcp interface in structure
-	panu.udp_interface = argv[4]; // put given interface to udp interface in structure
+	struct packet_interface pacint; // alias
+	pacint.arg = argv[6]; // put number of packets in arg variable of packet_number structure
+	pacint.tcp_interface = argv[2]; // put given interface to tcp interface in structure
+	pacint.udp_interface = argv[4]; // put given interface to udp interface in structure
 	// if taken arguments from command line is less than 6 then print "displayhelp" function
 	if(argc < 6){
 		displayhelp(); // show help and exit program
