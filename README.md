@@ -1,5 +1,5 @@
 # Demo
-this is a demo program that capture TCP and UDP packets on two different interfaces. each capture run on it's own thread.
+this is a demo program that capture TCP and UDP packets on two different interfaces. each capture run on it's own thread and dump captured traffic in a separate file in 'pcap' format.
 # Usage
 ```
 gcc -pthread -o demo demo.c
