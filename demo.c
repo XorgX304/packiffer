@@ -40,11 +40,11 @@ void *functionudp(void *argudp){
 void displayhelp(){
 
 	printf("demo [-t tcp interface] [-u udp interface] [-c number of packets to capture]\n"); // help text
-	exit(0); // exit program
+	exit(1); // exit program
 	
 }
 
-int main(int argc, char* argv[]){
+void main(int argc, char* argv[]){
 
 	struct packet_interface pacint; // alias
 	pacint.arg = argv[6]; // put number of packets in arg variable of packet_number structure
@@ -64,6 +64,6 @@ int main(int argc, char* argv[]){
 	pthread_create(&pthudp, NULL, functionudp, "udp processing..."); // udp thread creation
 	pthread_join(pthtcp, NULL); // wait for tcp thread to completes
 	pthread_join(pthudp, NULL); // wait for udp thread to completes
-	return 0;
+	exit(0); // exit program
 
 }
