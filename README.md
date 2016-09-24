@@ -5,7 +5,7 @@ this is a demo program that capture TCP and UDP packets on two different interfa
 gcc -pthread -o demo demo.c
 ./demo [-t tcp interface] [-u udp interface] [-c number of packets to capture]
 ```
-with this below command you can list all of your interfaces.
+below command lists all of your interfaces.
 
 ```ifconfig -a```
 
