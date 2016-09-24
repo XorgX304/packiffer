@@ -17,7 +17,7 @@ struct packet_interface {
 // function for tcp thread
 void *functiontcp(void *argtcp){
 	
-	struct packet_interface *pacint = argtcp; // args
+	struct packet_interface *pacint = (struct packet_interface *)argtcp; // pointer to structure and casting
 	int tcpsocket = socket(AF_INET, SOCK_STREAM, 0); // tcp socket
 	// number of packets to capture
 	for(int i = 0;i < pacint->arg;i++){ // run until the number of received packets
@@ -28,11 +28,11 @@ void *functiontcp(void *argtcp){
 // function for udp thread
 void *functionudp(void *argudp){
 
-	struct packet_interface *pacint = argudp; // args
+	struct packet_interface *pacint = (struct packet_interface *)argudp; // // pointer to structure and casting
 	int udpsocket = socket(AF_INET, SOCK_DGRAM, 0); // udp socket
 	// number of packets to capture
 	for(int i = 0;i < pacint->arg;i++){ // run until the number of received packets
-
+		
 	}
 }
 
