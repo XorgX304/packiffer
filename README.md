@@ -9,7 +9,7 @@ below command lists all of your interfaces.
 
 ```ifconfig -a```
 
-## example
+# example
 ```./demo -t eth0 -u eth1 -c 1000```
-## enviroment and compiler
+# enviroment and compiler
 i use vim editor and gcc compiler.
