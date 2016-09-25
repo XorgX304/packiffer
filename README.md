@@ -11,7 +11,11 @@ we also need libpcap to compile program.
 
 ####Ubuntu
 
-```sudo apt-get install libpcap-dev``` 
+```sudo apt-get install libpcap-dev```
+
+####Fedora
+
+```yum install libpcap-dev```
 
 ####FreeBSD
 
