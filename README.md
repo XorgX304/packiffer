@@ -9,6 +9,9 @@ below command lists all of your interfaces.
 
 ```ifconfig -a```
 
+we also need libpcap to compile program.
+
+'''sudo apt-get install libpcap-dev''' [ubuntu]
 # example
 ```./demo -t eth0 -u eth1 -c 1000```
 # enviroment and compiler
