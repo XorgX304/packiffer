@@ -10,6 +10,7 @@ gcc -pthread -o demo demo.c
 we also need libpcap to compile program.
 
 ```sudo apt-get install libpcap-dev``` [ubuntu]
+```pkg install libpcap``` [FreeBSD]
 
 below command lists all of your interfaces.
 
