@@ -9,11 +9,11 @@ gcc -pthread -o demo demo.c
 
 we also need libpcap to compile program.
 
-[ubuntu]
+Ubuntu
 
 ```sudo apt-get install libpcap-dev``` 
 
-[FreeBSD]
+FreeBSD
 
 ```
 cd /usr/ports/net/libpcap/ && make install clean
