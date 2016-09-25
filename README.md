@@ -14,7 +14,8 @@ we also need libpcap to compile program.
 ```
 cd /usr/ports/net/libpcap/ && make install clean
 pkg install libpcap
-``` [FreeBSD]
+```
+[FreeBSD]
 
 below command lists all of your interfaces.
 
