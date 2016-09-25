@@ -11,7 +11,10 @@ we also need libpcap to compile program.
 
 ```sudo apt-get install libpcap-dev``` [ubuntu]
 
-```pkg install libpcap``` [FreeBSD]
+```
+cd /usr/ports/net/libpcap/ && make install clean
+pkg install libpcap
+``` [FreeBSD]
 
 below command lists all of your interfaces.
 
