@@ -9,7 +9,8 @@ gcc -pthread -o demo demo.c
 
 we also need libpcap to compile program.
 
-```sudo apt-get install libpcap-dev``` [ubuntu]
+```sudo apt-get install libpcap-dev``` 
+[ubuntu]
 
 ```
 cd /usr/ports/net/libpcap/ && make install clean
