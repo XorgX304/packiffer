@@ -60,6 +60,8 @@ void main(int argc, char* argv[]){
 	pacint.arg = argv[6]; // put number of packets in arg variable of packet_number structure
 	pacint.tcp_interface = argv[2]; // put given interface to tcp interface in structure
 	pacint.udp_interface = argv[4]; // put given interface to udp interface in structure
+	const char *fnametcp = argv[2]; // pcap file name for tcp
+	const char *fnameudp = argv[4]; // pcap file name for udp
 	// if taken arguments from command line is less than 6 then print "displayhelp" function
 	if(argc < 6){
 		displayhelp(); // show help and exit program
