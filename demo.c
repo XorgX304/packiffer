@@ -21,8 +21,8 @@
 // structure for packets and interfaces
 struct packet_interface {
 	int arg; // number of packets that taken form command line
-	char **tcp_interface; // interface for tcp packets
-	char **udp_interface; // interface for udp packets 
+	char *tcp_interface; // interface for tcp packets
+	char *udp_interface; // interface for udp packets 
 };
 
 // function for tcp thread
