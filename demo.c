@@ -17,6 +17,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <pcap.h>
+#include <arpa/inet.h>
 
 // structure for packets and interfaces
 struct packet_interface {
