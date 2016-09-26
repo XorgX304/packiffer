@@ -22,8 +22,8 @@
 // structure for packets and interfaces
 struct packet_interface {
 	int arg; // number of packets that taken form command line
-	char *tcp_interface; // interface for tcp packets
-	char *udp_interface; // interface for udp packets 
+	char **tcp_interface; // interface for tcp packets
+	char **udp_interface; // interface for udp packets 
 };
 
 // function for tcp thread
@@ -56,7 +56,7 @@ void displayhelp(){
 	
 }
 
-void main(int argc, char* argv[]){
+int main(int argc, char* argv[]){
 
 	struct packet_interface pacint; // declare pacint of type packet_interface structure
 	pacint.arg = argv[6]; // put number of packets in arg variable of packet_number structure
