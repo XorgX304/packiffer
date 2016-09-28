@@ -17,7 +17,7 @@ we also need libpcap to compile program.
 
 ```yum install libpcap-dev```
 
-####FreeBSD
+####FreeBSD [via Ports]
 
 ```
 cd /usr/ports/net/libpcap/ && make install clean
