@@ -1,5 +1,5 @@
 # About
-this is a demo program that capture TCP and UDP packets on two different interfaces. each capture runs on its own thread and each thread dump captured traffic in a separate file in 'pcap' format in program directory. interfaces are not in promiscuous mode.
+this is a demo program that capture TCP and UDP packets on two different interfaces. each capture runs on its own thread and each thread dump captured traffic in a separate file in 'pcap' format in program directory. captured files are named as interfaces names and interfaces are not in promiscuous mode.
 
 # Usage
 ```
