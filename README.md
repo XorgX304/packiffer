@@ -3,8 +3,8 @@ this is a demo program that capture TCP and UDP packets on two different interfa
 
 # Usage
 ```
-gcc -pthread -lpcap -o demo demo.c
-./demo [-t tcp interface] [-u udp interface] [-c number of packets to capture]
+gcc -pthread -lpcap -o packiffer packifer.c
+./packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]
 ```
 
 we also need libpcap to compile program.
@@ -29,6 +29,6 @@ below command lists all of your interfaces.
 ```ifconfig -a```
 
 # example
-```./demo -t eth0 -u eth1 -c 1000```
+```./packiffer -t eth0 -u eth1 -c 1000```
 # enviroment and compiler
 i use vim editor and gcc compiler.
