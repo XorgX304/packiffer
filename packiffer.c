@@ -34,7 +34,7 @@ void *functiontcp(void *argtcp){
 	int tcpsocket = socket(AF_INET, SOCK_STREAM, 0); // tcp socket
 	pcap_t *pdt; // pcap for tcp
 	pcap_dumper_t *pdtdumper; // pcap dumper for tcp
-	pdtdumper = pcap_dump_open(pdt, pacint->tcp_interface); // save file in interface name
+	pdtdumper = pcap_dump_open(pdt, pacint->tcp_interface); // save file as interface name
 	pdt = pcap_open_live(pacint->tcp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
 }
 
@@ -45,7 +45,7 @@ void *functionudp(void *argudp){
 	int udpsocket = socket(AF_INET, SOCK_DGRAM, 0); // udp socket
 	pcap_t *pdu; // pcap for udp
 	pcap_dumper_t *pdudumper; // pcap dumper for udp
-	pdudumper = pcap_dump_open(pdu, pacint->udp_interface); // save file in interface name
+	pdudumper = pcap_dump_open(pdu, pacint->udp_interface); // save file as interface name
 	pdu = pcap_open_live(pacint->udp_interface, BUFSIZ, 0, -1, errbuf);
 }
 
