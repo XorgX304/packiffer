@@ -19,6 +19,7 @@
 #include <pcap.h>
 #include <arpa/inet.h>
 #include <pthread.h>
+#include <syslog.h>
 
 // structure for packets and interfaces
 struct packet_interface {
@@ -42,27 +43,39 @@ void packet_handler_udp(u_char *pdudumper, const struct pcap_pkthdr *header, con
 // function for tcp thread
 void *functiontcp(void *argtcp){
 
+	openlog("tcp thread", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	char errbuf[PCAP_ERRBUF_SIZE]; // error size buffer provided by libpacp	
 	struct packet_interface *pacint = (struct packet_interface *)argtcp; // pointer to structure and casting
 	int tcpsocket = socket(AF_INET, SOCK_STREAM, 0); // tcp socket
+	syslog(LOG_INFO, "tcp thread using pcap library"); // syslog
 	pcap_t *pdt; // pcap for tcp
 	pcap_dumper_t *pdtdumper; // pcap dumper for tcp
 	pdt = pcap_open_live(pacint->tcp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
 	pdtdumper = pcap_dump_open(pdt, pacint->tcp_interface); // save file as interface name
+	syslog(LOG_INFO, "tcp thread started capturing"); // syslog
 	pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper); // start capture
+	syslog(LOG_INFO, "tcp thread done"); // syslog	
+	closelog(); // close log	
+	
 }
 
 // function for udp thread
 void *functionudp(void *argudp){
 
+	openlog("udp thread", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	char errbuf[PCAP_ERRBUF_SIZE]; // error size buffer provided by libpcap
 	struct packet_interface *pacint = (struct packet_interface *)argudp; // // pointer to structure and casting
 	int udpsocket = socket(AF_INET, SOCK_DGRAM, 0); // udp socket
+	syslog(LOG_INFO, "udp thread using pcap library"); // syslog
 	pcap_t *pdu; // pcap for udp
 	pcap_dumper_t *pdudumper; // pcap dumper for udp
 	pdu = pcap_open_live(pacint->udp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
 	pdudumper = pcap_dump_open(pdu, pacint->udp_interface); // save file as interface name
+	syslog(LOG_INFO, "udp thread started capturing"); // syslog
 	pcap_loop(pdu, pacint->arg, packet_handler_udp, (unsigned char *)pdudumper); // start capture
+	syslog(LOG_INFO, "udp thread done"); // syslog
+	closelog(); // close log
+
 }
 
 // command line argument help
