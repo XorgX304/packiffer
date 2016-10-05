@@ -10,16 +10,16 @@
 #include <netinet/ip.h> // Provides declarations for ip header
 #include <netinet/if_ether.h> // For ETH_P_ALL
 #include <net/ethernet.h> // For ether_header
-#include <sys/socket.h>
+#include <sys/socket.h> // socket
 #include <arpa/inet.h>
 #include <sys/ioctl.h>
-#include <sys/time.h>
+#include <sys/time.h> // time
 #include <sys/types.h>
 #include <unistd.h>
-#include <pcap.h>
+#include <pcap.h> // libpacp
 #include <arpa/inet.h>
-#include <pthread.h>
-#include <syslog.h>
+#include <pthread.h> // threading
+#include <syslog.h> // log to syslog
 
 // structure for packets and interfaces
 struct packet_interface {
