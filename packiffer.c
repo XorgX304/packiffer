@@ -17,7 +17,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <pcap.h> // libpacp
-#include <arpa/inet.h>
+#include <arpa/inet.h> // arpa
 #include <pthread.h> // threading
 #include <syslog.h> // log to syslog
 
