@@ -109,10 +109,10 @@ int main(int argc, char **argv){
 	pthread_t pthtcp; // tcp thread def
 	pthread_t pthudp; // udp thread def
 	pthread_create(&pthtcp, NULL, functiontcp, (void *)&pacint); // tcp thread creation
-	pthread_join(pthtcp, NULL); // wait for tcp thread to completes
-	pthread_cancel(pthtcp); // kill tcp thread
 	pthread_create(&pthudp, NULL, functionudp, (void *)&pacint); // udp thread creation
+	pthread_join(pthtcp, NULL); // wait for tcp thread to completes
 	pthread_join(pthudp, NULL); // wait for udp thread to completes
+	pthread_cancel(pthtcp); // kill tcp thread
 	pthread_cancel(pthudp); // kill udp thread
 	return 0; // exit program
 
