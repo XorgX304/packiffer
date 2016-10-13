@@ -52,9 +52,8 @@ void *functiontcp(void *argtcp){
 	pdt = pcap_open_live(pacint->tcp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
 	pdtdumper = pcap_dump_open(pdt, pacint->tcp_interface); // save file as interface name
 	bpf_u_int32 net; // The IP of our sniffing device
-	char filter_exp[] = "tcp"; // set filter to tcp
 	struct bpf_program fp; // the compiled filter experssion
-	pcap_compile(pdt, &fp, filter_exp, 0, net); // compile filter 
+	pcap_compile(pdt, &fp, "tcp", 0, net); // compile filter 
 	pcap_setfilter(pdt, &fp); // set filter
 	syslog(LOG_INFO, "tcp thread started capturing"); // syslog
 	pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper); // start capture
@@ -73,9 +72,8 @@ void *functionudp(void *argudp){
 	pdu = pcap_open_live(pacint->udp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
 	pdudumper = pcap_dump_open(pdu, pacint->udp_interface); // save file as interface name
 	bpf_u_int32 net; // The IP of our sniffing device
-	char filter_exp[] = "udp"; // set filter to udp
 	struct bpf_program fp; // the compiled filter expression
-	pcap_compile(pdu, &fp, filter_exp, 0, net); // compile filter
+	pcap_compile(pdu, &fp, "udp", 0, net); // compile filter
 	pcap_setfilter(pdu, &fp); // set filter
 	syslog(LOG_INFO, "udp thread started capturing"); // syslog
 	pcap_loop(pdu, pacint->arg, packet_handler_udp, (unsigned char *)pdudumper); // start capture
@@ -86,23 +84,34 @@ void *functionudp(void *argudp){
 // command line argument help
 void displayhelp(){
 
-	printf("packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]\n"); // help text
+	printf("packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]\nmake sure interfaces names are typed correctly\nyou can see interfaces with 'ifconfig -a' command\n"); // help text
 	exit(1); // exit program
 	
 }
 
 int main(int argc, char **argv){
 
-	// if taken arguments from command line is less than 6 then print "displayhelp" function
-        if(argc != 7 && argv[1] != "-t" && argv[3] != "-u" && argv[5] != "-c"){
-              displayhelp(); // show help and exit program
-        }
+	struct packet_interface pacint; // declare pacint of type packet_interface structure
+	int d;
+	while ((d = getopt (argc, argv, "t:u:c:")) != -1)
+    switch (d)
+      {
+      case 't':
+        pacint.tcp_interface = optarg;
+        break;
+      case 'u':
+        pacint.udp_interface = optarg;
+        break;
+      case 'c':
+        pacint.arg = atoi(optarg);
+        break;
+      case '?':
+        displayhelp();
+      default:
+        displayhelp();
+      }
 	struct pcap_pkthdr *header; // pcap.h 
 	const u_char *pkt_data; // net/ethernet.h
-	struct packet_interface pacint; // declare pacint of type packet_interface structure
-	pacint.arg = atoi(argv[6]); // put number of packets in arg variable of packet_number structure
-	pacint.tcp_interface = argv[2]; // put given interface to tcp interface in structure
-	pacint.udp_interface = argv[4]; // put given interface to udp interface in structure
 	openlog("creating threads", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	pthread_t pthtcp; // tcp thread def
 	pthread_t pthudp; // udp thread def
