@@ -1,25 +1,26 @@
-#include <stdio.h> // For standard things
-#include <stdlib.h> // malloc
-#include <string.h> // strlen
-#include <errno.h> // error header
+#include <stdio.h> //For standard things
+#include <stdlib.h> //malloc
+#include <string.h> //strlen
+#include <errno.h>
 #include <netdb.h>
 #include <netinet/in.h>
-#include <netinet/ip_icmp.h> // Provides declarations for icmp header
-#include <netinet/udp.h> // Provides declarations for udp header
-#include <netinet/tcp.h> // Provides declarations for tcp header
-#include <netinet/ip.h> // Provides declarations for ip header
-#include <netinet/if_ether.h> // For ETH_P_ALL
-#include <net/ethernet.h> // For ether_header
-#include <sys/socket.h> // socket
+#include <netinet/ip_icmp.h> //Provides declarations for icmp header
+#include <netinet/udp.h> //Provides declarations for udp header
+#include <netinet/tcp.h> //Provides declarations for tcp header
+#include <netinet/ip.h> //Provides declarations for ip header
+#include <netinet/if_ether.h> //For ETH_P_ALL
+#include <net/ethernet.h> //For ether_header
+#include <sys/socket.h>
 #include <arpa/inet.h>
 #include <sys/ioctl.h>
-#include <sys/time.h> // time
+#include <sys/time.h>
 #include <sys/types.h>
+#include <ctype.h>
 #include <unistd.h>
-#include <pcap.h> // libpacp
-#include <arpa/inet.h> // arpa
-#include <pthread.h> // threading
-#include <syslog.h> // log to syslog
+#include <pcap.h>
+#include <arpa/inet.h>
+#include <pthread.h>
+#include <syslog.h>
 
 // structure for packets and interfaces
 struct packet_interface {
@@ -43,7 +44,6 @@ void packet_handler_udp(u_char *pdudumper, const struct pcap_pkthdr *header, con
 // function for tcp thread
 void *functiontcp(void *argtcp){
 	
-	openlog("tcp thread", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	char errbuf[PCAP_ERRBUF_SIZE]; // error size buffer provided by libpacp	
 	struct packet_interface *pacint = (struct packet_interface *)argtcp; // pointer to structure and casting
 	syslog(LOG_INFO, "tcp thread using pcap library"); // syslog
@@ -58,15 +58,13 @@ void *functiontcp(void *argtcp){
 	pcap_setfilter(pdt, &fp); // set filter
 	syslog(LOG_INFO, "tcp thread started capturing"); // syslog
 	pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper); // start capture
-	syslog(LOG_INFO, "tcp thread done"); // syslog	
-	closelog(); // close log	
+	syslog(LOG_INFO, "tcp thread done"); // syslog		
 	
 }
 
 // function for udp thread
 void *functionudp(void *argudp){
 
-	openlog("udp thread", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	char errbuf[PCAP_ERRBUF_SIZE]; // error size buffer provided by libpcap
 	struct packet_interface *pacint = (struct packet_interface *)argudp; // // pointer to structure and casting
 	syslog(LOG_INFO, "udp thread using pcap library"); // syslog
@@ -82,7 +80,6 @@ void *functionudp(void *argudp){
 	syslog(LOG_INFO, "udp thread started capturing"); // syslog
 	pcap_loop(pdu, pacint->arg, packet_handler_udp, (unsigned char *)pdudumper); // start capture
 	syslog(LOG_INFO, "udp thread done"); // syslog
-	closelog(); // close log
 
 }
 
@@ -106,14 +103,16 @@ int main(int argc, char **argv){
 	pacint.arg = atoi(argv[6]); // put number of packets in arg variable of packet_number structure
 	pacint.tcp_interface = argv[2]; // put given interface to tcp interface in structure
 	pacint.udp_interface = argv[4]; // put given interface to udp interface in structure
+	openlog("creating threads", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	pthread_t pthtcp; // tcp thread def
 	pthread_t pthudp; // udp thread def
 	pthread_create(&pthtcp, NULL, functiontcp, (void *)&pacint); // tcp thread creation
 	pthread_create(&pthudp, NULL, functionudp, (void *)&pacint); // udp thread creation
 	pthread_join(pthtcp, NULL); // wait for tcp thread to completes
 	pthread_join(pthudp, NULL); // wait for udp thread to completes
-	pthread_cancel(pthtcp); // kill tcp thread
+	pthread_cancel(pthtcp); // kill tcp thread	
 	pthread_cancel(pthudp); // kill udp thread
+	closelog(); // closing log
 	return 0; // exit program
 
 }
