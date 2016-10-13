@@ -3,7 +3,7 @@ this is a demo program that capture TCP and UDP packets on two different interfa
 
 # Usage
 ```
-# gcc -pthread -o packiffer packifer.c -lpcap
+# gcc -pthread -o packiffer packiffer.c -lpcap
 # ./packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]
 ```
 
