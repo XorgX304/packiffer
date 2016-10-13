@@ -22,6 +22,14 @@
 #include <pthread.h>
 #include <syslog.h>
 
+// command line argument help
+void displayhelp(){
+
+	printf("packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]\nmake sure interfaces names are typed correctly\nyou can see interfaces with 'ifconfig -a' command\n"); // help text
+	exit(1); // exit program
+	
+}
+
 // structure for packets and interfaces
 struct packet_interface {
 	int arg; // number of packets that taken form command line
@@ -50,15 +58,25 @@ void *functiontcp(void *argtcp){
 	pcap_t *pdt; // pcap for tcp
 	pcap_dumper_t *pdtdumper; // pcap dumper for tcp
 	pdt = pcap_open_live(pacint->tcp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
+	if (pdt == NULL) {
+		 displayhelp();
+	 }
 	pdtdumper = pcap_dump_open(pdt, pacint->tcp_interface); // save file as interface name
 	bpf_u_int32 net; // The IP of our sniffing device
 	struct bpf_program fp; // the compiled filter experssion
-	pcap_compile(pdt, &fp, "tcp", 0, net); // compile filter 
-	pcap_setfilter(pdt, &fp); // set filter
-	syslog(LOG_INFO, "tcp thread started capturing"); // syslog
-	pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper); // start capture
-	syslog(LOG_INFO, "tcp thread done"); // syslog		
-	
+	if(pcap_compile(pdt, &fp, "tcp", 0, net) == -1){
+		displayhelp();
+	} // compile filter
+	else { 
+		if(pcap_setfilter(pdt, &fp) == -1){ // set filter
+			displayhelp();
+		}
+		else {
+			syslog(LOG_INFO, "tcp thread started capturing"); // syslog
+			pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper); // start capture
+			syslog(LOG_INFO, "tcp thread done"); // syslog		
+		}
+	}
 }
 
 // function for udp thread
@@ -70,23 +88,25 @@ void *functionudp(void *argudp){
 	pcap_t *pdu; // pcap for udp
 	pcap_dumper_t *pdudumper; // pcap dumper for udp
 	pdu = pcap_open_live(pacint->udp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
+	if (pdu == NULL) {
+		 displayhelp();
+	 }
 	pdudumper = pcap_dump_open(pdu, pacint->udp_interface); // save file as interface name
 	bpf_u_int32 net; // The IP of our sniffing device
 	struct bpf_program fp; // the compiled filter expression
-	pcap_compile(pdu, &fp, "udp", 0, net); // compile filter
-	pcap_setfilter(pdu, &fp); // set filter
-	syslog(LOG_INFO, "udp thread started capturing"); // syslog
-	pcap_loop(pdu, pacint->arg, packet_handler_udp, (unsigned char *)pdudumper); // start capture
-	syslog(LOG_INFO, "udp thread done"); // syslog
-
-}
-
-// command line argument help
-void displayhelp(){
-
-	printf("packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]\nmake sure interfaces names are typed correctly\nyou can see interfaces with 'ifconfig -a' command\n"); // help text
-	exit(1); // exit program
-	
+	if(pcap_compile(pdu, &fp, "udp", 0, net) == -1){
+		displayhelp();
+	} // compile filter
+	else {
+		if(pcap_setfilter(pdu, &fp) == -1){
+			displayhelp();
+		} // set filter
+		else {
+			syslog(LOG_INFO, "udp thread started capturing"); // syslog
+			pcap_loop(pdu, pacint->arg, packet_handler_udp, (unsigned char *)pdudumper); // start capture
+			syslog(LOG_INFO, "udp thread done"); // syslog
+		}
+	}
 }
 
 int main(int argc, char **argv){
