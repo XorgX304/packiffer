@@ -73,8 +73,12 @@ void *functiontcp(void *argtcp){
 		}
 		else {
 			syslog(LOG_INFO, "tcp thread started capturing"); // syslog
-			pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper); // start capture
+			if(pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper) == -1){
+				displayhelp();
+			} // start capture
+			else {
 			syslog(LOG_INFO, "tcp thread done"); // syslog		
+			}
 		}
 	}
 }
@@ -103,8 +107,12 @@ void *functionudp(void *argudp){
 		} // set filter
 		else {
 			syslog(LOG_INFO, "udp thread started capturing"); // syslog
-			pcap_loop(pdu, pacint->arg, packet_handler_udp, (unsigned char *)pdudumper); // start capture
+			if(pcap_loop(pdu, pacint->arg, packet_handler_udp, (unsigned char *)pdudumper) == -1){
+				displayhelp();
+			} // start capture
+			else {
 			syslog(LOG_INFO, "udp thread done"); // syslog
+			}
 		}
 	}
 }
