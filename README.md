@@ -28,8 +28,8 @@ below command lists all of your interfaces.
 
 ```ifconfig -a```
 
-# example
+# Example
 ```# ./packiffer -t eth0 -u eth1 -c 1000```
 
-# enviroment and compiler
+# Enviroment and Compiler
 i use vim editor and gcc compiler.
