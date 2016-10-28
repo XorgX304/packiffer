@@ -32,4 +32,4 @@ below command lists all of your interfaces.
 ```# ./packiffer -t eth0 -u eth1 -c 1000```
 
 # Enviroment and Compiler
-i use vim editor and gcc compiler.
+vim editor and gcc compiler.
