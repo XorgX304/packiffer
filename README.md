@@ -26,7 +26,7 @@ we also need libpcap to compile program.
 
 below command lists all of available interfaces.
 
-```ifconfig -a```
+```$ ifconfig -a```
 
 # Example
 ```# ./packiffer -t eth0 -u eth1 -c 1000```
