@@ -20,8 +20,8 @@ we also need libpcap to compile program.
 ####FreeBSD [via Ports]
 
 ```
-cd /usr/ports/net/libpcap/ && make install clean
-pkg install libpcap
+# cd /usr/ports/net/libpcap/ && make install clean
+# pkg install libpcap
 ```
 
 below command lists all of available interfaces.
