@@ -24,7 +24,7 @@ cd /usr/ports/net/libpcap/ && make install clean
 pkg install libpcap
 ```
 
-below command lists all of your interfaces.
+below command lists all of available interfaces.
 
 ```ifconfig -a```
 
