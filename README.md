@@ -13,9 +13,9 @@ we also need libpcap to compile program.
 
 ```# apt-get install libpcap-dev```
 
-####Fedora
+####Fedora 22+
 
-```# yum install libpcap-dev```
+```# dnf install libpcap-dev```
 
 ####FreeBSD [via Ports]
 
