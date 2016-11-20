@@ -7,7 +7,7 @@ Packiffer is a packet sniffer program for linux that capture TCP and UDP packets
 # ./packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]
 ```
 
-program needs libpcap to be compiled.
+Packiffer needs libpcap to be compiled.
 
 ####Ubuntu
 
