@@ -31,8 +31,8 @@ below command lists all of available interfaces.
 # Example
 ```# ./packiffer -t eth0 -u eth1 -c 1000```
 
-# Enviroment and Compiler
-vim editor and gcc compiler.
+# Tools
+vim editor, gcc compiler, valgrind, gtk+, GNU/Linux and FreeBSD.
 
 # GUI Version (GTK+)
 under development
