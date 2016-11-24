@@ -17,10 +17,10 @@
 #include <netinet/if_ether.h> //For ETH_P_ALL
 #include <net/ethernet.h> //For ether_header
 #include <arpa/inet.h>
-#include <pcap.h>
+#include <pcap.h> // libpcap library
 #include <arpa/inet.h>
-#include <pthread.h>
-#include <syslog.h>
+#include <pthread.h> // POSIX threads
+#include <syslog.h> // log
 
 // command line argument help
 void displayhelp(){
