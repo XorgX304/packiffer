@@ -122,22 +122,22 @@ int main(int argc, char **argv){
 	struct packet_interface pacint; // declare pacint of type packet_interface structure
 	int d;
 	while ((d = getopt (argc, argv, "t:u:c:")) != -1)
-    switch (d)
-      {
-      case 't':
-        pacint.tcp_interface = optarg;
-        break;
-      case 'u':
-        pacint.udp_interface = optarg;
-        break;
-      case 'c':
-        pacint.arg = atoi(optarg);
-        break;
-      case '?':
-        displayhelp();
-      default:
-        displayhelp();
-      }
+    	switch (d)
+      	{
+      	case 't':
+           pacint.tcp_interface = optarg;
+           break;
+      	case 'u':
+           pacint.udp_interface = optarg;
+           break;
+      	case 'c':
+           pacint.arg = atoi(optarg);
+           break;
+        case '?':
+           displayhelp();
+        default:
+           displayhelp();
+        }
 	struct pcap_pkthdr *header; // pcap.h 
 	const u_char *pkt_data; // net/ethernet.h
 	openlog("creating threads", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
