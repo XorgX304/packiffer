@@ -60,7 +60,7 @@ void *functiontcp(void *argtcp){
 	pdt = pcap_open_live(pacint->tcp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
 	if (pdt == NULL) {
 		 displayhelp();
-	 }
+	}
 	pdtdumper = pcap_dump_open(pdt, pacint->tcp_interface); // save file as interface name
 	bpf_u_int32 net; // The IP of our sniffing device
 	struct bpf_program fp; // the compiled filter experssion
@@ -124,19 +124,19 @@ int main(int argc, char **argv){
 	while ((d = getopt (argc, argv, "t:u:c:")) != -1)
     	switch (d)
       	{
-      	case 't':
-           pacint.tcp_interface = optarg;
-           break;
-      	case 'u':
-           pacint.udp_interface = optarg;
-           break;
-      	case 'c':
-           pacint.arg = atoi(optarg);
-           break;
-        case '?':
-           displayhelp();
-        default:
-           displayhelp();
+      	    case 't':
+               pacint.tcp_interface = optarg;
+               break;
+      	    case 'u':
+               pacint.udp_interface = optarg;
+               break;
+      	    case 'c':
+               pacint.arg = atoi(optarg);
+               break;
+            case '?':
+               displayhelp();
+            default:
+               displayhelp();
         }
 	struct pcap_pkthdr *header; // pcap.h 
 	const u_char *pkt_data; // net/ethernet.h
