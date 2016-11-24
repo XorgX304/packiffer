@@ -2,12 +2,19 @@
 Packiffer is a packet sniffer program for linux that capture TCP and UDP packets on two different interfaces. each capture runs on its own thread and each thread dump captured traffic in a separate file in 'pcap' format in program directory. captured files are named as interfaces names and interfaces are not in promiscuous mode.
 
 # Usage
+
+### Packiffer (CLI)
 ```
 # gcc -pthread -o packiffer packiffer.c -lpcap
 # ./packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]
 ```
 
-Packiffer needs libpcap to be compiled.
+### Packiffer (GUI)
+```
+under development
+```
+
+#### Packiffer needs libpcap to be compiled.
 
 ####Ubuntu
 
