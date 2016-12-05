@@ -1,5 +1,5 @@
 # About
-Packiffer is a packet sniffer program for UNIX® that capture TCP and UDP packets on two different interfaces. each capture runs on its own thread and each thread dump captured traffic in a separate file in 'pcap' format in program directory. captured files are named as interfaces names and interfaces are not in promiscuous mode.
+Packiffer is a packet sniffer program for Unix-like Systems that capture TCP and UDP packets on two different interfaces. each capture runs on its own thread and each thread dump captured traffic in a separate file in 'pcap' format in program directory. captured files are named as interfaces names and interfaces are not in promiscuous mode.
 
 # Usage
 
