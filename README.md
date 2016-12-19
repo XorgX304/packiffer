@@ -8,7 +8,12 @@ Packiffer is a packet sniffer program for Unix-like Operating Systems that captu
 # gcc -pthread -o packiffer packiffer.c -lpcap
 # ./packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]
 ```
-note that if you compile program with clang it won't run on FreeBSD.
+note that you can compile program with clang on FreeBSD.
+
+```
+# clang -pthread -o packiffer packiffer.c -lpcap
+# ./packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]
+```
 
 ### Packiffer (GUI)
 ```
