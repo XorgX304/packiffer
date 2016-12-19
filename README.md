@@ -12,7 +12,6 @@ note that you can compile program with clang on FreeBSD.
 
 ```
 # clang -pthread -o packiffer packiffer.c -lpcap
-# ./packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]
 ```
 
 ### Packiffer (GUI)
