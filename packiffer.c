@@ -59,6 +59,9 @@ void displayhelp(){
 	
 }
 
+struct pcap_pkthdr *header; // pcap.h 
+const u_char *pkt_data; // net/ethernet.h
+
 // structure for packets and interfaces
 struct packet_interface {
 	int arg; // number of packets that taken form command line
@@ -167,8 +170,7 @@ int main(int argc, char **argv){
             default:
                displayhelp();
         }
-	struct pcap_pkthdr *header; // pcap.h 
-	const u_char *pkt_data; // net/ethernet.h
+	
 	openlog("creating threads", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	pthread_t pthtcp; // tcp thread def
 	pthread_t pthudp; // udp thread def
