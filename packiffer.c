@@ -113,6 +113,7 @@ void *functiontcp(void *argtcp){
 			}
 		}
 	}
+return 0;	
 }
 
 // function for udp thread
@@ -147,6 +148,7 @@ void *functionudp(void *argudp){
 			}
 		}
 	}
+return 0;	
 }
 
 int main(int argc, char **argv){
