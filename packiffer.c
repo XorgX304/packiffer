@@ -94,7 +94,7 @@ void *functiontcp(void *argtcp){
 		 displayhelp();
 	}
 	pdtdumper = pcap_dump_open(pdt, pacint->tcp_interface); // save file as interface name
-	bpf_u_int32 net; // The IP of our sniffing device
+	bpf_u_int32 net = 0; // The IP of our sniffing device
 	struct bpf_program fp; // the compiled filter experssion
 	if(pcap_compile(pdt, &fp, "tcp", 0, net) == -1){
 		displayhelp();
@@ -129,7 +129,7 @@ void *functionudp(void *argudp){
 		 displayhelp();
 	 }
 	pdudumper = pcap_dump_open(pdu, pacint->udp_interface); // save file as interface name
-	bpf_u_int32 net; // The IP of our sniffing device
+	bpf_u_int32 net = 0; // The IP of our sniffing device
 	struct bpf_program fp; // the compiled filter expression
 	if(pcap_compile(pdu, &fp, "udp", 0, net) == -1){
 		displayhelp();
