@@ -44,7 +44,7 @@ below command lists all of available interfaces.
 ```# ./packiffer -t eth0 -u eth1 -c 1000```
 
 # Tools
-vim editor, gcc compiler, valgrind, gtk+, libpcap, GNU/Linux and FreeBSD.
+vim editor, gcc, clang, valgrind, gtk+, libpcap, GNU/Linux and FreeBSD.
 
 # GUI Version (GTK+)
 under development
