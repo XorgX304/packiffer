@@ -98,13 +98,13 @@ void *functiontcp(void *argtcp){
 		}
 		else {
 			syslog(LOG_INFO, "tcp thread started capturing"); // syslog
-			 if(pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper) == -1){
+			if(pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper) == -1){
 				displayhelp();
-			 } // start capture
-			 else {
+			} // start capture
+			else {
 				syslog(LOG_INFO, "tcp thread done"); // syslog		
-			 }
-		 }
+			}
+		}
 	}
 	return 0;
 }
