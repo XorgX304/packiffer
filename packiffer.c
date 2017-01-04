@@ -184,5 +184,4 @@ int main(int argc, char **argv){
 	pthread_cancel(pthudp); // kill udp thread
 	closelog(); // closing log
 	return 0; // exit program
-
 }
