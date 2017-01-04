@@ -177,3 +177,12 @@ int main(int argc, char **argv){
 	closelog(); // closing log
 	return 0; // exit program
 }
+
+/* Stop the GTK+ main loop function when the window is destroyed. */ 
+static void destroy(GtkWidget *window, gpointer data){  
+	gtk_main_quit(); 
+}
+/* Return FALSE to destroy the widget */ 
+static gboolean delete_event(GtkWidget *window, GdkEvent *event, gpointer data){   
+	return FALSE;
+}
