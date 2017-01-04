@@ -109,7 +109,7 @@ void *functiontcp(void *argtcp){
 				displayhelp();
 			} // start capture
 			else {
-			syslog(LOG_INFO, "tcp thread done"); // syslog		
+				syslog(LOG_INFO, "tcp thread done"); // syslog		
 			}
 		}
 	}
@@ -144,7 +144,7 @@ void *functionudp(void *argudp){
 				displayhelp();
 			} // start capture
 			else {
-			syslog(LOG_INFO, "udp thread done"); // syslog
+				syslog(LOG_INFO, "udp thread done"); // syslog
 			}
 		}
 	}
