@@ -1,21 +1,16 @@
 /*
 Copyright (c) 2016-2017, Massoud Asadi
 All rights reserved.
-
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
-
 * Redistributions of source code must retain the above copyright notice, this
   list of conditions and the following disclaimer.
-
 * Redistributions in binary form must reproduce the above copyright notice,
   this list of conditions and the following disclaimer in the documentation
   and/or other materials provided with the distribution.
-
 * Neither the name of the copyright holder nor the names of its
   contributors may be used to endorse or promote products derived from
   this software without specific prior written permission.
-
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -149,21 +144,32 @@ static gboolean delete_event (GtkWidget*, GdkEvent*, gpointer); // kill event
 
 int main(int argc, char **argv){
 
-	GtkWidget *window, *label; // init widget
-        gtk_init (&argc, &argv); // init
+	GtkWidget *grid, *window, *button, *tcp_entry, *udp_entry, *tcp_label, *udp_label; // init widgets
+        gtk_init (&argc, &argv); // init clp
         window = gtk_window_new (GTK_WINDOW_TOPLEVEL); // creates new window
 	gtk_window_set_title (GTK_WINDOW (window), "Packiffer"); // title in master window
 	gtk_container_set_border_width (GTK_CONTAINER (window), 10); // cointainer border
-	gtk_widget_set_size_request (window, 800, 600); // set windows size
+	gtk_widget_set_size_request (window, 200, 100); // set windows size
+	grid = gtk_grid_new (); // pack our widgets
         /* Connect the main window to the destroy and delete-event signals. */  
 	g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (destroy), NULL);
-	g_signal_connect (G_OBJECT (window), "delete_event", G_CALLBACK (delete_event), NULL);
-        /* Create a new GtkLabel widget that is selectable. */  
-	label = gtk_label_new ("put interfaces names in Appropriate text box then hit the button");  
-	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
-        /* Add the label as a child widget of the window. */  
-	gtk_container_add (GTK_CONTAINER (window), label);  gtk_widget_show_all (window);
-        gtk_main (); 
+	g_signal_connect (G_OBJECT (window), "delete_event", G_CALLBACK (delete_event), NULL);    
+        /* Add the grid as a child widget of the window. */
+	gtk_container_add (GTK_CONTAINER (window), grid);
+	// label tcp
+	tcp_entry = gtk_entry_new ();
+	gtk_entry_set_placeholder_text(GTK_ENTRY (tcp_entry), "tcp");;
+	gtk_grid_attach (GTK_GRID (grid), tcp_entry, 0, 0, 1, 1);
+	// label udp
+	udp_entry = gtk_entry_new ();
+	gtk_entry_set_placeholder_text(GTK_ENTRY (udp_entry), "udp");
+        gtk_grid_attach (GTK_GRID (grid), udp_entry, 1, 0, 1, 1);
+	// button
+	button = gtk_button_new_with_label ("sniff");
+	// g_signal_connect (button, "clicked", G_CALLBACK (sniff), null);
+	gtk_grid_attach (GTK_GRID (grid), button, 0, 1, 2, 1); 
+	gtk_widget_show_all (window);
+        gtk_main (); // waits for signals
 	struct packet_interface pacint; // declare pacint of type packet_interface structure
 	openlog("creating threads", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	pthread_t pthtcp; // tcp thread def
