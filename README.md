@@ -16,8 +16,10 @@ note that you can compile program with clang on FreeBSD.
 
 ### Packiffer (GUI)
 ```
-under development
+gcc `pkg-config --cflags gtk+-3.0` -pthread -o pg pg.c `pkg-config --libs gtk+-3.0` -lpcap
 ```
+
+GUI version is under development.
 
 #### Packiffer needs libpcap to be compiled.
 
