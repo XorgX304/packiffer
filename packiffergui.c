@@ -84,22 +84,22 @@ void *functiontcp(void *argtcp){
 	pcap_dumper_t *pdtdumper; // pcap dumper for tcp
 	pdt = pcap_open_live(pacint->tcp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
 	if (pdt == NULL) {
-		displayhelp();
+		printf("error");
 	}
 	pdtdumper = pcap_dump_open(pdt, pacint->tcp_interface); // save file as interface name
 	bpf_u_int32 net = 0; // The IP of our sniffing device
 	struct bpf_program fp; // the compiled filter experssion
 	if(pcap_compile(pdt, &fp, "tcp", 0, net) == -1){
-		displayhelp();
+		printf("error");
 	} // compile filter
 	else { 
 		if(pcap_setfilter(pdt, &fp) == -1){ // set filter
-			displayhelp();
+			printf("error");
 		}
 		else {
 			syslog(LOG_INFO, "tcp thread started capturing"); // syslog
 			if(pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper) == -1){
-				displayhelp();
+				printf("error");
 			} // start capture
 			else {
 				syslog(LOG_INFO, "tcp thread done"); // syslog		
@@ -119,22 +119,22 @@ void *functionudp(void *argudp){
 	pcap_dumper_t *pdudumper; // pcap dumper for udp
 	pdu = pcap_open_live(pacint->udp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
 	if (pdu == NULL) {
-		displayhelp();
+		printf("error");
 	}
 	pdudumper = pcap_dump_open(pdu, pacint->udp_interface); // save file as interface name
 	bpf_u_int32 net = 0; // The IP of our sniffing device
 	struct bpf_program fp; // the compiled filter expression
 	if(pcap_compile(pdu, &fp, "udp", 0, net) == -1){
-		displayhelp();
+		printf("error");
 	} // compile filter
 	else {
 		if(pcap_setfilter(pdu, &fp) == -1){
-			displayhelp();
+			printf("error");
 		} // set filter
 		else {
 			syslog(LOG_INFO, "udp thread started capturing"); // syslog
 			if(pcap_loop(pdu, pacint->arg, packet_handler_udp, (unsigned char *)pdudumper) == -1){
-				displayhelp();
+				printf("error");
 			} // start capture
 			else {
 				syslog(LOG_INFO, "udp thread done"); // syslog
