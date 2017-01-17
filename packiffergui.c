@@ -144,7 +144,7 @@ static gboolean delete_event (GtkWidget*, GdkEvent*, gpointer); // kill event
 
 int main(int argc, char **argv){
 
-	GtkWidget *grid, *window, *button, *tcp_entry, *udp_entry, *tcp_label, *udp_label; // init widgets
+	GtkWidget *grid, *window, *button, *tcp_entry, *udp_entry; // init widgets
         gtk_init (&argc, &argv); // init clp
         window = gtk_window_new (GTK_WINDOW_TOPLEVEL); // creates new window
 	gtk_window_set_title (GTK_WINDOW (window), "Packiffer"); // title in master window
