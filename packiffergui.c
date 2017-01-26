@@ -158,7 +158,7 @@ int main(int argc, char **argv){
 	gtk_container_add (GTK_CONTAINER (window), grid);
 	// label tcp
 	tcp_entry = gtk_entry_new ();
-	gtk_entry_set_placeholder_text(GTK_ENTRY (tcp_entry), "tcp");;
+	gtk_entry_set_placeholder_text(GTK_ENTRY (tcp_entry), "tcp");
 	gtk_grid_attach (GTK_GRID (grid), tcp_entry, 0, 0, 1, 1);
 	// label udp
 	udp_entry = gtk_entry_new ();
