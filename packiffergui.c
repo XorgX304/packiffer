@@ -8,15 +8,15 @@ modification, are permitted provided that the following conditions are met:
 
 * Redistributions of source code must retain the above copyright notice, this
   list of conditions and the following disclaimer.
-  
+
 * Redistributions in binary form must reproduce the above copyright notice,
   this list of conditions and the following disclaimer in the documentation
   and/or other materials provided with the distribution.
-  
+
 * Neither the name of the copyright holder nor the names of its
   contributors may be used to endorse or promote products derived from
   this software without specific prior written permission.
-  
+
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -57,11 +57,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 struct pcap_pkthdr *header; // pcap.h
 const u_char *pkt_data; // net/ethernet.h
 
+// structure for button callback
+struct btn {
+	const char *num;
+        const char *tcp_btn;
+        const char *udp_btn; 
+};
+
 // structure for packets and interfaces
 struct packet_interface {
 	int arg; // number of packets that taken form command line
-	char *tcp_interface; // interface for tcp packets
-	char *udp_interface; // interface for udp packets 
+	const char *tcp_interface; // interface for tcp packets
+	const char *udp_interface; // interface for udp packets 
 };
 
 // Callback function invoked by libpcap for every incoming tcp packet
@@ -148,7 +155,24 @@ void *functionudp(void *argudp){
 
 static void destroy (GtkWidget*, gpointer); // destroy function 
 static gboolean delete_event (GtkWidget*, GdkEvent*, gpointer); // kill event
-
+void sniff (GtkWidget *widget, gpointer data){
+	
+	struct packet_interface pacint; // declare pacint of type packet_interface structure
+	struct btn *zc = data;
+	pacint.arg = atoi(zc->num);
+	pacint.tcp_interface = zc->tcp_btn;
+	pacint.udp_interface = zc->udp_btn;
+	pthread_t pthtcp; // tcp thread def
+        pthread_t pthudp; // udp thread def
+        pthread_create(&pthtcp, NULL, functiontcp, (void *)&pacint); // tcp thread creation
+        pthread_create(&pthudp, NULL, functionudp, (void *)&pacint); // udp thread creation
+        pthread_join(pthtcp, NULL); // wait for tcp thread to completes
+        pthread_join(pthudp, NULL); // wait for udp thread to completes
+        pthread_cancel(pthtcp); // kill tcp thread      
+        pthread_cancel(pthudp); // kill udp thread
+        closelog(); // closing log
+		
+} 
 int main(int argc, char **argv){
 
 	GtkWidget *grid, *window, *button, *tcp_entry, *udp_entry, *num_entry; // init widgets
@@ -172,26 +196,20 @@ int main(int argc, char **argv){
 	gtk_entry_set_placeholder_text(GTK_ENTRY (udp_entry), "udp");
         gtk_grid_attach (GTK_GRID (grid), udp_entry, 1, 0, 1, 1);
 	//label number
-        num_entry = gtk_entry_new ();
-        gtk_entry_set_placeholder_text(GTK_ENTRY (num_entry), "number");
-        gtk_grid_attach (GTK_GRID (grid), num_entry, 2, 0, 1, 1);
+	num_entry = gtk_entry_new ();
+	gtk_entry_set_placeholder_text(GTK_ENTRY (num_entry), "number");
+	gtk_grid_attach (GTK_GRID (grid), num_entry, 2, 0, 1, 1);
+	// struct
+	struct btn b; // declare pacint of type packet_interface structure
+	b.num = gtk_entry_get_text(GTK_ENTRY (num_entry));
+	b.tcp_btn = gtk_entry_get_text(GTK_ENTRY (tcp_entry));
+	b.udp_btn = gtk_entry_get_text(GTK_ENTRY (udp_entry));
 	// button
 	button = gtk_button_new_with_label ("sniff");
-	// g_signal_connect (button, "clicked", G_CALLBACK (sniff), null);
+	g_signal_connect (button, "clicked", G_CALLBACK (sniff), &b);
 	gtk_grid_attach (GTK_GRID (grid), button, 0, 1, 3, 1); 
 	gtk_widget_show_all (window);
         gtk_main (); // waits for signals
-	struct packet_interface pacint; // declare pacint of type packet_interface structure
-	openlog("creating threads", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
-	pthread_t pthtcp; // tcp thread def
-	pthread_t pthudp; // udp thread def
-	pthread_create(&pthtcp, NULL, functiontcp, (void *)&pacint); // tcp thread creation
-	pthread_create(&pthudp, NULL, functionudp, (void *)&pacint); // udp thread creation
-	pthread_join(pthtcp, NULL); // wait for tcp thread to completes
-	pthread_join(pthudp, NULL); // wait for udp thread to completes
-	pthread_cancel(pthtcp); // kill tcp thread	
-	pthread_cancel(pthudp); // kill udp thread
-	closelog(); // closing log
 	return 0; // exit program
 }
 
