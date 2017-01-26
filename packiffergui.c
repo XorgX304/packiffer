@@ -144,12 +144,12 @@ static gboolean delete_event (GtkWidget*, GdkEvent*, gpointer); // kill event
 
 int main(int argc, char **argv){
 
-	GtkWidget *grid, *window, *button, *tcp_entry, *udp_entry; // init widgets
+	GtkWidget *grid, *window, *button, *tcp_entry, *udp_entry, *num_entry; // init widgets
         gtk_init (&argc, &argv); // init clp
         window = gtk_window_new (GTK_WINDOW_TOPLEVEL); // creates new window
 	gtk_window_set_title (GTK_WINDOW (window), "Packiffer"); // title in master window
 	gtk_container_set_border_width (GTK_CONTAINER (window), 10); // cointainer border
-	gtk_widget_set_size_request (window, 200, 100); // set windows size
+	gtk_widget_set_size_request (window, 250, 100); // set windows size
 	grid = gtk_grid_new (); // pack our widgets
         /* Connect the main window to the destroy and delete-event signals. */  
 	g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (destroy), NULL);
@@ -164,10 +164,14 @@ int main(int argc, char **argv){
 	udp_entry = gtk_entry_new ();
 	gtk_entry_set_placeholder_text(GTK_ENTRY (udp_entry), "udp");
         gtk_grid_attach (GTK_GRID (grid), udp_entry, 1, 0, 1, 1);
+	//label number
+        num_entry = gtk_entry_new ();
+        gtk_entry_set_placeholder_text(GTK_ENTRY (num_entry), "number");
+        gtk_grid_attach (GTK_GRID (grid), num_entry, 2, 0, 1, 1);
 	// button
 	button = gtk_button_new_with_label ("sniff");
 	// g_signal_connect (button, "clicked", G_CALLBACK (sniff), null);
-	gtk_grid_attach (GTK_GRID (grid), button, 0, 1, 2, 1); 
+	gtk_grid_attach (GTK_GRID (grid), button, 0, 1, 3, 1); 
 	gtk_widget_show_all (window);
         gtk_main (); // waits for signals
 	struct packet_interface pacint; // declare pacint of type packet_interface structure
