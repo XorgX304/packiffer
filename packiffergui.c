@@ -204,6 +204,7 @@ int main(int argc, char **argv){
 	b.num = gtk_entry_get_text(GTK_ENTRY (num_entry));
 	b.tcp_btn = gtk_entry_get_text(GTK_ENTRY (tcp_entry));
 	b.udp_btn = gtk_entry_get_text(GTK_ENTRY (udp_entry));
+	//b.num = "10"; b.tcp_btn = "wlp2s0"; b.udp_btn = "lo";
 	// button
 	button = gtk_button_new_with_label ("sniff");
 	g_signal_connect (button, "clicked", G_CALLBACK (sniff), &b);
