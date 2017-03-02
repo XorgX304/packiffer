@@ -1,3 +1,4 @@
+
 /*
 
 Copyright (c) 2016-2017, Massoud Asadi
@@ -29,6 +30,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
+
 #include <stdio.h> 
 #include <stdlib.h>
 #include <string.h> 
@@ -58,15 +60,13 @@ struct pcap_pkthdr *header; // pcap.h
 const u_char *pkt_data; // net/ethernet.h
 
 // structure for button callback
-struct btn {
-	const char *num;
-        const char *tcp_btn;
-        const char *udp_btn; 
-};
+typedef struct btn {
+	GtkWidget *tcp_entry, *udp_entry, *num_entry; 
+} btn;
 
 // structure for packets and interfaces
 struct packet_interface {
-	int arg; // number of packets that taken form command line
+	int arg1, arg2; // number of packets that taken form command line
 	const char *tcp_interface; // interface for tcp packets
 	const char *udp_interface; // interface for udp packets 
 };
@@ -107,7 +107,7 @@ void *functiontcp(void *argtcp){
 		}
 		else {
 			syslog(LOG_INFO, "tcp thread started capturing"); // syslog
-			if(pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper) == -1){
+			if(pcap_loop(pdt, pacint->arg1, packet_handler_tcp, (unsigned char *)pdtdumper) == -1){
 				printf("error");
 			} // start capture
 			else {
@@ -142,7 +142,7 @@ void *functionudp(void *argudp){
 		} // set filter
 		else {
 			syslog(LOG_INFO, "udp thread started capturing"); // syslog
-			if(pcap_loop(pdu, pacint->arg, packet_handler_udp, (unsigned char *)pdudumper) == -1){
+			if(pcap_loop(pdu, pacint->arg2, packet_handler_udp, (unsigned char *)pdudumper) == -1){
 				printf("error");
 			} // start capture
 			else {
@@ -158,24 +158,29 @@ static gboolean delete_event (GtkWidget*, GdkEvent*, gpointer); // kill event
 void sniff (GtkWidget *widget, gpointer data){
 	
 	struct packet_interface pacint; // declare pacint of type packet_interface structure
-	struct btn *zc = data;
-	pacint.arg = atoi(zc->num);
-	pacint.tcp_interface = zc->tcp_btn;
-	pacint.udp_interface = zc->udp_btn;
+	struct btn *b = (struct btn *)data;
+	pacint.arg1 = atoi(gtk_entry_get_text(GTK_ENTRY (b->num_entry)));
+	pacint.arg2 = atoi(gtk_entry_get_text(GTK_ENTRY (b->num_entry)));
+	pacint.tcp_interface = gtk_entry_get_text(GTK_ENTRY (b->tcp_entry));;
+	pacint.udp_interface = gtk_entry_get_text(GTK_ENTRY (b->udp_entry));;
 	pthread_t pthtcp; // tcp thread def
         pthread_t pthudp; // udp thread def
         pthread_create(&pthtcp, NULL, functiontcp, (void *)&pacint); // tcp thread creation
-        pthread_create(&pthudp, NULL, functionudp, (void *)&pacint); // udp thread creation
+	pthread_create(&pthudp, NULL, functionudp, (void *)&pacint); // udp thread creation
         pthread_join(pthtcp, NULL); // wait for tcp thread to completes
-        pthread_join(pthudp, NULL); // wait for udp thread to completes
+	pthread_join(pthudp, NULL); // wait for udp thread to completes
         pthread_cancel(pthtcp); // kill tcp thread      
         pthread_cancel(pthudp); // kill udp thread
         closelog(); // closing log
+	gtk_main_quit();
 		
 } 
+
+GtkWidget *grid, *window, *button; // init widgets
+
 int main(int argc, char **argv){
 
-	GtkWidget *grid, *window, *button, *tcp_entry, *udp_entry, *num_entry; // init widgets
+	//GtkWidget *grid, *window, *button, *tcp_entry, *udp_entry, *num_entry; // init widgets
         gtk_init (&argc, &argv); // init clp
         window = gtk_window_new (GTK_WINDOW_TOPLEVEL); // creates new window
 	gtk_window_set_title (GTK_WINDOW (window), "Packiffer"); // title in master window
@@ -187,24 +192,20 @@ int main(int argc, char **argv){
 	g_signal_connect (G_OBJECT (window), "delete_event", G_CALLBACK (delete_event), NULL);    
         /* Add the grid as a child widget of the window. */
 	gtk_container_add (GTK_CONTAINER (window), grid);
-	// label tcp
-	tcp_entry = gtk_entry_new ();
-	gtk_entry_set_placeholder_text(GTK_ENTRY (tcp_entry), "tcp");
-	gtk_grid_attach (GTK_GRID (grid), tcp_entry, 0, 0, 1, 1);
-	// label udp
-	udp_entry = gtk_entry_new ();
-	gtk_entry_set_placeholder_text(GTK_ENTRY (udp_entry), "udp");
-        gtk_grid_attach (GTK_GRID (grid), udp_entry, 1, 0, 1, 1);
-	//label number
-	num_entry = gtk_entry_new ();
-	gtk_entry_set_placeholder_text(GTK_ENTRY (num_entry), "number");
-	gtk_grid_attach (GTK_GRID (grid), num_entry, 2, 0, 1, 1);
 	// struct
-	struct btn b; // declare pacint of type packet_interface structure
-	b.num = gtk_entry_get_text(GTK_ENTRY (num_entry));
-	b.tcp_btn = gtk_entry_get_text(GTK_ENTRY (tcp_entry));
-	b.udp_btn = gtk_entry_get_text(GTK_ENTRY (udp_entry));
-	//b.num = "10"; b.tcp_btn = "wlp2s0"; b.udp_btn = "lo";
+        struct btn b; // declare pacint of type packet_interface structure
+	// label tcp
+	b.tcp_entry = gtk_entry_new ();
+	gtk_entry_set_placeholder_text(GTK_ENTRY (b.tcp_entry), "tcp");
+	gtk_grid_attach (GTK_GRID (grid), b.tcp_entry, 0, 0, 1, 1);
+	// label udp
+	b.udp_entry = gtk_entry_new ();
+	gtk_entry_set_placeholder_text(GTK_ENTRY (b.udp_entry), "udp");
+        gtk_grid_attach (GTK_GRID (grid), b.udp_entry, 1, 0, 1, 1);
+	//label number
+	b.num_entry = gtk_entry_new ();
+	gtk_entry_set_placeholder_text(GTK_ENTRY (b.num_entry), "number");
+	gtk_grid_attach (GTK_GRID (grid), b.num_entry, 2, 0, 1, 1);
 	// button
 	button = gtk_button_new_with_label ("sniff");
 	g_signal_connect (button, "clicked", G_CALLBACK (sniff), &b);
