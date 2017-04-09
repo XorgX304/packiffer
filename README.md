@@ -26,15 +26,15 @@ gcc `pkg-config --cflags gtk+-3.0` -pthread -o packiffergui packiffergui.c `pkg-
 
 #### Packiffer needs libpcap to be compiled.
 
-####Ubuntu
+#### Ubuntu
 
 ```# apt-get install libpcap-dev```
 
-####Fedora 22+
+#### Fedora 22+
 
 ```# dnf install libpcap-dev```
 
-####FreeBSD [via Ports]
+#### FreeBSD [via Ports]
 
 ```
 # cd /usr/ports/net/libpcap/ && make install clean
