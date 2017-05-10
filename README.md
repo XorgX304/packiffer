@@ -25,7 +25,7 @@ note that you can compile program with clang on FreeBSD.
 # clang -pthread -o packiffer packiffer.c -lpcap
 ```
 
-### Packiffer (GUI)
+### Packiffer (GUI) (Under Development)
 ```
 gcc `pkg-config --cflags gtk+-3.0` -pthread -o packiffergui packiffergui.c `pkg-config --libs gtk+-3.0` -lpcap
 ```
@@ -59,5 +59,4 @@ below command lists all of available interfaces.
 vim, gcc, clang, valgrind, gtk+, libpcap, GNU/Linux and FreeBSD.
 
 # GUI Version (GTK+)
-GUI works now! 
-just type ./packiffergui and enjoy!
+Under Development !
