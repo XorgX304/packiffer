@@ -1,4 +1,4 @@
 CC=gcc
 
 packiffer: packiffer.c
-        $(CC) -pthread -o packiffer packiffer.c -lpcap
+*****$(CC) -pthread -o packiffer packiffer.c -lpcap
