@@ -9,6 +9,7 @@ Packiffer is a packet sniffer program for Unix-like Operating Systems that captu
 
 ### Build by using makefile (CLI)
 ```
+# git clone https://github.com/massoudasadi/packiffer.git
 # mkdir packiffer
 # cd packiffer
 # make
