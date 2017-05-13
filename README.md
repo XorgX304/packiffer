@@ -12,6 +12,7 @@ Packiffer is a packet sniffer program for Unix-like Operating Systems that captu
 # git clone https://github.com/massoudasadi/packiffer.git
 # cd packiffer
 # make
+# ./packiffer -t [tcp interface] -u [udp interface] -c [number of packets to capture]
 ```
 
 ### Packiffer (CLI)
