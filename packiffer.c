@@ -57,7 +57,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // command line argument help
 void displayhelp(){
 
-	printf("packiffer [-t tcp interface] [-u udp interface] [-c number of packets to capture]\nmake sure interfaces names are typed correctly\nyou can see interfaces with 'ifconfig -a' command\n"); // help text
+	printf("packiffer -t [tcp interface] -u [udp interface] -c [number of packets to capture]\nmake sure interfaces names are typed correctly\nyou can see interfaces with 'ifconfig -a' command\n"); // help text
 	exit(1); // exit program
 	
 }
