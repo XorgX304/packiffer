@@ -179,12 +179,14 @@ int main(int argc, char **argv){
 	openlog("creating threads", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	pthread_t pthtcp; // tcp thread def
 	pthread_t pthudp; // udp thread def
+	printf("\nprocessing ... \n"); // display text during sniffing
 	pthread_create(&pthtcp, NULL, functiontcp, (void *)&pacint); // tcp thread creation
 	pthread_create(&pthudp, NULL, functionudp, (void *)&pacint); // udp thread creation
 	pthread_join(pthtcp, NULL); // wait for tcp thread to completes
 	pthread_join(pthudp, NULL); // wait for udp thread to completes
 	pthread_cancel(pthtcp); // kill tcp thread	
 	pthread_cancel(pthudp); // kill udp thread
+	printf("\ninterfaces sniffed successfully.\n"); // display text after sniffing
 	closelog(); // closing log
 	return 0; // exit program
 }
