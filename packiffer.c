@@ -180,6 +180,7 @@ int main(int argc, char **argv){
 	pthread_t pthtcp; // tcp thread def
 	pthread_t pthudp; // udp thread def
 	printf("\nprocessing ... \n"); // display text during sniffing
+	syslog(LOG_INFO, "starting tcp & udp threads."); // syslog
 	pthread_create(&pthtcp, NULL, functiontcp, (void *)&pacint); // tcp thread creation
 	pthread_create(&pthudp, NULL, functionudp, (void *)&pacint); // udp thread creation
 	pthread_join(pthtcp, NULL); // wait for tcp thread to completes
@@ -187,6 +188,7 @@ int main(int argc, char **argv){
 	pthread_cancel(pthtcp); // kill tcp thread	
 	pthread_cancel(pthudp); // kill udp thread
 	printf("\ninterfaces sniffed successfully.\n"); // display text after sniffing
+	syslog(LOG_INFO, "udp and tcp thread done successfully."); // syslog
 	closelog(); // closing log
 	return 0; // exit program
 }
