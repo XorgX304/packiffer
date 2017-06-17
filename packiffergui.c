@@ -179,7 +179,7 @@ void sniff (GtkWidget *widget, gpointer data){
 GtkWidget *grid, *window, *button; // init widgets
 
 int main(int argc, char **argv){
-
+	openlog("GTK+ started ... ", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	//GtkWidget *grid, *window, *button, *tcp_entry, *udp_entry, *num_entry; // init widgets
         gtk_init (&argc, &argv); // init clp
         window = gtk_window_new (GTK_WINDOW_TOPLEVEL); // creates new window
@@ -191,6 +191,7 @@ int main(int argc, char **argv){
 	g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (destroy), NULL);
 	g_signal_connect (G_OBJECT (window), "delete_event", G_CALLBACK (delete_event), NULL);    
         /* Add the grid as a child widget of the window. */
+	syslog(LOG_INFO, "container-button-textbox"); // syslog
 	gtk_container_add (GTK_CONTAINER (window), grid);
 	// struct
         struct btn b; // declare pacint of type packet_interface structure
@@ -216,7 +217,8 @@ int main(int argc, char **argv){
 }
 
 /* Stop the GTK+ main loop function when the window is destroyed. */ 
-static void destroy(GtkWidget *window, gpointer data){  
+static void destroy(GtkWidget *window, gpointer data){ 
+	syslog(LOG_INFO, "exit app."); // syslog
 	gtk_main_quit(); 
 }
 /* Return FALSE to destroy the widget */ 
