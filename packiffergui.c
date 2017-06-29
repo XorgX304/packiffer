@@ -205,7 +205,7 @@ int main(int argc, char **argv){
         gtk_grid_attach (GTK_GRID (grid), b.udp_entry, 1, 0, 1, 1);
 	//label number
 	b.num_entry = gtk_entry_new ();
-	gtk_entry_set_placeholder_text(GTK_ENTRY (b.num_entry), "number");
+	gtk_entry_set_placeholder_text(GTK_ENTRY (b.num_entry), "count");
 	gtk_grid_attach (GTK_GRID (grid), b.num_entry, 2, 0, 1, 1);
 	// button
 	button = gtk_button_new_with_label ("sniff");
