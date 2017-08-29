@@ -93,24 +93,40 @@ void *functiontcp(void *argtcp){
 	pcap_t *pdt; // pcap for tcp
 	pcap_dumper_t *pdtdumper; // pcap dumper for tcp
 	pdt = pcap_open_live(pacint->tcp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
+
 	if (pdt == NULL) {
-		 displayhelp();
+		fprintf(stderr, "Failed to open %s: %s\n",
+			pacint->tcp_interface, errbuf);
+		exit(2);
 	}
+
 	pdtdumper = pcap_dump_open(pdt, pacint->tcp_interface); // save file as interface name
 	bpf_u_int32 net = 0; // The IP of our sniffing device
 	struct bpf_program fp; // the compiled filter experssion
+
 	if(pcap_compile(pdt, &fp, "tcp", 0, net) == -1){
-		displayhelp();
+		fprintf(stderr, "An error occurred while compiling"
+			" the pcap filter.\n");
+		exit(3);
 	} // compile filter
+
 	else { 
+
 		if(pcap_setfilter(pdt, &fp) == -1){ // set filter
-			displayhelp();
+			fprintf(stderr, "An error occurred while setting"
+				" the pcap filter.\n");
+			exit(4);
 		}
+
 		else {
 			syslog(LOG_INFO, "tcp thread started capturing"); // syslog
+
 			if(pcap_loop(pdt, pacint->arg, packet_handler_tcp, (unsigned char *)pdtdumper) == -1){
-				displayhelp();
+				fprintf(stderr, "An error occurred while"
+					" processing the packets.\n");
+				exit(5);
 			} // start capture
+
 			else {
 				syslog(LOG_INFO, "tcp thread done"); // syslog		
 			}
