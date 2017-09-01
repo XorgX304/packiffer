@@ -144,23 +144,36 @@ void *functionudp(void *argudp){
 	pcap_t *pdu; // pcap for udp
 	pcap_dumper_t *pdudumper; // pcap dumper for udp
 	pdu = pcap_open_live(pacint->udp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
+
 	if (pdu == NULL) {
-		 displayhelp();
-	 }
+		fprintf(stderr, "Failed to open %s: %s\n",
+			pacint->udp_interface, errbuf);
+		exit(6);
+	}
+
 	pdudumper = pcap_dump_open(pdu, pacint->udp_interface); // save file as interface name
 	bpf_u_int32 net = 0; // The IP of our sniffing device
 	struct bpf_program fp; // the compiled filter expression
+
 	if(pcap_compile(pdu, &fp, "udp", 0, net) == -1){
-		displayhelp();
+		fprintf(stderr, "An error occurred while compiling"
+			" the pcap filter.\n");
+		exit(7);
 	} // compile filter
+
 	else {
 		if(pcap_setfilter(pdu, &fp) == -1){
-			displayhelp();
+			fprintf(stderr, "An error occurred while setting"
+				" the pcap filter.\n");
+			exit(8);
 		} // set filter
+
 		else {
 			syslog(LOG_INFO, "udp thread started capturing"); // syslog
 			if(pcap_loop(pdu, pacint->arg, packet_handler_udp, (unsigned char *)pdudumper) == -1){
-				displayhelp();
+				fprintf(stderr, "An error occurred while"
+					" processing the packets.\n");
+				exit(9);
 			} // start capture
 			else {
 				syslog(LOG_INFO, "udp thread done"); // syslog
