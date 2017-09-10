@@ -64,6 +64,7 @@ void displayhelp(){
 
 struct pcap_pkthdr *header; // pcap.h 
 const u_char *pkt_data; // net/ethernet.h
+pthread_mutex_t mutexvar; // mutex
 
 // structure for packets and interfaces
 struct packet_interface {
@@ -87,6 +88,8 @@ void packet_handler_udp(u_char *pdudumper, const struct pcap_pkthdr *header, con
 // function for tcp thread
 void *functiontcp(void *argtcp){
 	
+	pthread_mutex_lock (&mutexvar); // mutex var
+	pthread_mutex_unlock (&mutexvar); // empty
 	char errbuf[PCAP_ERRBUF_SIZE]; // error size buffer provided by libpacp	
 	struct packet_interface *pacint = (struct packet_interface *)argtcp; // pointer to structure and casting
 	syslog(LOG_INFO, "tcp thread using pcap library"); // syslog
@@ -95,6 +98,7 @@ void *functiontcp(void *argtcp){
 	pdt = pcap_open_live(pacint->tcp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
 
 	if (pdt == NULL) {
+
 		fprintf(stderr, "Failed to open %s: %s\n",
 			pacint->tcp_interface, errbuf);
 		exit(2);
@@ -132,12 +136,14 @@ void *functiontcp(void *argtcp){
 			}
 		}
 	}
-	return 0;	
+	pthread_exit((void*) 0);	
 }
 
 // function for udp thread
 void *functionudp(void *argudp){
-
+	
+	pthread_mutex_lock (&mutexvar); // mutex var
+	pthread_mutex_unlock (&mutexvar); // empty
 	char errbuf[PCAP_ERRBUF_SIZE]; // error size buffer provided by libpcap
 	struct packet_interface *pacint = (struct packet_interface *)argudp; // // pointer to structure and casting
 	syslog(LOG_INFO, "udp thread using pcap library"); // syslog
@@ -146,11 +152,11 @@ void *functionudp(void *argudp){
 	pdu = pcap_open_live(pacint->udp_interface, BUFSIZ, 0, -1, errbuf); // open pcap
 
 	if (pdu == NULL) {
-		fprintf(stderr, "Failed to open %s: %s\n",
+		 fprintf(stderr, "Failed to open %s: %s\n",
 			pacint->udp_interface, errbuf);
 		exit(6);
-	}
-
+	 }
+  
 	pdudumper = pcap_dump_open(pdu, pacint->udp_interface); // save file as interface name
 	bpf_u_int32 net = 0; // The IP of our sniffing device
 	struct bpf_program fp; // the compiled filter expression
@@ -180,7 +186,7 @@ void *functionudp(void *argudp){
 			}
 		}
 	}
-	return 0;	
+	pthread_exit((void*) 0);	
 }
 
 int main(int argc, char **argv){
@@ -208,16 +214,23 @@ int main(int argc, char **argv){
 	openlog("creating threads", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL0); // open log
 	pthread_t pthtcp; // tcp thread def
 	pthread_t pthudp; // udp thread def
+	void *status; // return status of threads
+	pthread_mutex_init(&mutexvar, NULL); // mutex var
+	pthread_attr_t attr; // init
+	pthread_attr_init(&attr); // init
+    	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE); // Initialize and set thread detached attribute
 	printf("\nprocessing ... \n"); // display text during sniffing
 	syslog(LOG_INFO, "starting tcp & udp threads."); // syslog
-	pthread_create(&pthtcp, NULL, functiontcp, (void *)&pacint); // tcp thread creation
-	pthread_create(&pthudp, NULL, functionudp, (void *)&pacint); // udp thread creation
-	pthread_join(pthtcp, NULL); // wait for tcp thread to completes
-	pthread_join(pthudp, NULL); // wait for udp thread to completes
+	pthread_create(&pthtcp, &attr, functiontcp, (void *)&pacint); // tcp thread creation
+	pthread_create(&pthudp, &attr, functionudp, (void *)&pacint); // udp thread creation
+	pthread_attr_destroy(&attr); // Free attribute and wait for the other threads
+	pthread_join(pthtcp, &status); // wait for tcp thread to completes
+	pthread_join(pthudp, &status); // wait for udp thread to completes
 	pthread_cancel(pthtcp); // kill tcp thread	
 	pthread_cancel(pthudp); // kill udp thread
 	printf("\ninterfaces sniffed successfully.\n"); // display text after sniffing
 	syslog(LOG_INFO, "udp and tcp thread done successfully."); // syslog
 	closelog(); // closing log
-	return 0; // exit program
+	pthread_mutex_destroy(&mutexvar); // destroy mutex
+	pthread_exit(NULL); // exit program
 }
