@@ -64,7 +64,7 @@ void displayhelp(){
 
 struct pcap_pkthdr *header; // pcap.h 
 const u_char *pkt_data; // net/ethernet.h
-pthread_mutext_t mutexvar; // mutex
+pthread_mutex_t mutexvar; // mutex
 
 // structure for packets and interfaces
 struct packet_interface {
