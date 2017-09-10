@@ -57,6 +57,15 @@ below command lists all of available interfaces.
 # Example
 ```# ./packiffer -t eth0 -u eth1 -c 1000```
 
+# Tcpdump
+to read pcap files use below commands :
+
+```tcpdump -qns 0 -X -r eth0.pcap```
+
+or
+
+```tcpdump -qns 0 -A -r eth1.pcap```
+
 # Tools
 vim, gcc, clang, valgrind, gtk+, libpcap, GNU/Linux and FreeBSD.
 
