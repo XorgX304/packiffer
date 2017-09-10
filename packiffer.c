@@ -64,6 +64,7 @@ void displayhelp(){
 
 struct pcap_pkthdr *header; // pcap.h 
 const u_char *pkt_data; // net/ethernet.h
+pthread_mutext_t mutexvar; // mutex
 
 // structure for packets and interfaces
 struct packet_interface {
@@ -200,7 +201,7 @@ int main(int argc, char **argv){
 	pthread_t pthtcp; // tcp thread def
 	pthread_t pthudp; // udp thread def
 	void *status; // return status of threads
-	pthread_mutex_init(&mutevar, NULL); // mutex var
+	pthread_mutex_init(&mutexvar, NULL); // mutex var
 	pthread_attr_t attr; // init
 	pthread_attr_init(&attr); // init
     	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE); // Initialize and set thread detached attribute
@@ -216,6 +217,6 @@ int main(int argc, char **argv){
 	printf("\ninterfaces sniffed successfully.\n"); // display text after sniffing
 	syslog(LOG_INFO, "udp and tcp thread done successfully."); // syslog
 	closelog(); // closing log
-	pthread_mutex_destroy(&mutexsum); // destroy mutex
+	pthread_mutex_destroy(&mutexvar); // destroy mutex
 	pthread_exit(NULL); // exit program
 }
