@@ -71,3 +71,6 @@ vim, gcc, clang, valgrind, gtk+, libpcap, GNU/Linux and FreeBSD.
 
 # GUI Version (GTK+)
 Under Development !
+
+# Tested Environments
+Ubuntu, Fedora, OpenSuse, FreeBSD
