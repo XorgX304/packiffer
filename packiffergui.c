@@ -1,7 +1,7 @@
 
 /*
 
-Copyright (c) 2016-2017, Massoud Asadi
+Copyright (c) 2016-2018, Massoud Asadi
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
