@@ -52,7 +52,7 @@ gcc `pkg-config --cflags gtk+-3.0` -pthread -o packiffergui packiffergui.c `pkg-
 
 below command lists all of available interfaces.
 
-```$ ifconfig -a```
+```# ./packiffer -l```
 
 # Example
 ```# ./packiffer -t eth0 -u eth1 -c 1000```
