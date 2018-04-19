@@ -1,4 +1,3 @@
-## * Beta branch added *
 
 <p align="center"><img align="center" src="/testnew.png" alt="packiffer"></p>
 <h3 align="center">Packiffer CLI and GUI running on Ubuntu</h3>
