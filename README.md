@@ -3,7 +3,7 @@
 <h3 align="center">Packiffer CLI and GUI running on Ubuntu</h3>
 
 # About
-Packiffer is a packet sniffer program for Unix-like Operating Systems that capture TCP and UDP packets on two different interfaces. each capture runs on its own thread and each thread dump captured traffic in a separate file in 'pcap' format in program directory. captured files are named as interfaces names and interfaces are not in promiscuous mode.
+Packiffer is a packet sniffer demo program for Unix-like Operating Systems that capture TCP and UDP packets on two different interfaces. each capture runs on its own thread and each thread dump captured traffic in a separate file in 'pcap' format in program directory. captured files are named as interfaces names and interfaces are not in promiscuous mode.
 
 # Usage
 
