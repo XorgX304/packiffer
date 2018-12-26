@@ -254,5 +254,5 @@ int main(int argc, char **argv){
 	syslog(LOG_INFO, "udp and tcp thread done successfully."); // syslog
 	closelog(); // closing log
 	pthread_mutex_destroy(&mutexvar); // destroy mutex
-	pthread_exit(NULL); // exit program
+	exit(0); // exit program
 }
